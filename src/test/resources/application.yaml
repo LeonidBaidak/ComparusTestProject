@@ -1,0 +1,14 @@
+com:
+  baidak:
+    test-comparus:
+      data-sources:
+        - name: data-base-1
+          url: jdbc://.....
+          table: users
+          user: testuser
+          password: testpass
+          mapping:
+            id: user_id
+            username: login
+            name: first_name
+            surname: last_name

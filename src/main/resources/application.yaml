@@ -1,15 +1,28 @@
+spring:
+  liquibase:
+    enabled: false
+  datasource:
+    url: "jdbc:postgresql:TestDB1"
+    username: "TestUser1"
+    password: "Test1"
+  jpa:
+    hibernate:
+      ddl-auto: none
 #Example:
-#data-sources:
-#  - name: data-base-1
-#    url: jdbc://.....
-#    table: users
-#    user: testuser
-#    password: testpass
-#    mapping:
-#      id: user_id
-#      username: login
-#      name: first_name
-#      surname: last_name
+com:
+  baidak:
+    test-comparus:
+      data-sources:
+        - name: data-base-1
+          url: jdbc://.....
+          table: users
+          user: testuser
+          password: testpass
+          mapping:
+            id: user_id
+            username: login
+            name: first_name
+            surname: last_name
 #  - name: data-base-2
 #    url: jdbc://.....
 #    table: user_table
@@ -25,7 +38,5 @@ springdoc:
     path: "/swagger-ui.html"
 
 #    TODO change!!!
-spring:
-  jpa:
-    hibernate:
-      ddl-auto: none
+
+
