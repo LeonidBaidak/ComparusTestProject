@@ -1,7 +1,6 @@
 package com.baidak.test_comparus.domain;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -13,10 +12,8 @@ import lombok.ToString;
 
 import java.util.UUID;
 
-import static jakarta.persistence.GenerationType.IDENTITY;
-
 @Data
-@Table
+@Table(name = "user_table")
 @Entity
 @Builder
 @NoArgsConstructor
@@ -27,9 +24,8 @@ import static jakarta.persistence.GenerationType.IDENTITY;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = IDENTITY)
     private UUID id;
     private String username;
-    private String name;
+    private String firstName;
     private String surname;
 }

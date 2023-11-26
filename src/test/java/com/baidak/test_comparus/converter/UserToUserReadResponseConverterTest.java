@@ -17,14 +17,14 @@ class UserToUserReadResponseConverterTest {
         UUID id = UUID.randomUUID();
         User user = User.builder()
                 .id(id)
-                .name("name1")
+                .firstName("name1")
                 .surname("surname1")
                 .username("username1")
                 .build();
 
         UserReadResponse expectedResult = UserReadResponse.builder()
                 .id(id)
-                .name("name1")
+                .firstName("name1")
                 .surname("surname1")
                 .username("username1")
                 .build();

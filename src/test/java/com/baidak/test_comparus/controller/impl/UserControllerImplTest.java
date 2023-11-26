@@ -56,13 +56,13 @@ class UserControllerImplTest {
         UUID id2 = UUID.randomUUID();
         User user1 = User.builder()
                 .id(id1)
-                .name("name1")
+                .firstName("name1")
                 .surname("surname1")
                 .username("username1")
                 .build();
         User user2 = User.builder()
                 .id(id2)
-                .name("name2")
+                .firstName("name2")
                 .surname("surname2")
                 .username("username2")
                 .build();
@@ -73,13 +73,13 @@ class UserControllerImplTest {
 
         UserReadResponse userReadResponse1 = UserReadResponse.builder()
                 .id(id1)
-                .name("name1")
+                .firstName("name1")
                 .surname("surname1")
                 .username("username1")
                 .build();
         UserReadResponse userReadResponse2 = UserReadResponse.builder()
                 .id(id2)
-                .name("name2")
+                .firstName("name2")
                 .surname("surname2")
                 .username("username2")
                 .build();
@@ -94,16 +94,16 @@ class UserControllerImplTest {
                         .value(user1.getId().toString()))
                 .andExpect(jsonPath("$[0].username")
                         .value(user1.getUsername()))
-                .andExpect(jsonPath("$[0].name")
-                        .value(user1.getName()))
+                .andExpect(jsonPath("$[0].firstName")
+                        .value(user1.getFirstName()))
                 .andExpect(jsonPath("$[0].surname")
                         .value(user1.getSurname()))
                 .andExpect(jsonPath("$[1].id")
                         .value(user2.getId().toString()))
                 .andExpect(jsonPath("$[1].username")
                         .value(user2.getUsername()))
-                .andExpect(jsonPath("$[1].name")
-                        .value(user2.getName()))
+                .andExpect(jsonPath("$[1].firstName")
+                        .value(user2.getFirstName()))
                 .andExpect(jsonPath("$[1].surname")
                         .value(user2.getSurname()));
 

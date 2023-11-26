@@ -12,7 +12,7 @@ public class UserToUserReadResponseConverter implements Converter<User, UserRead
     public UserReadResponse convert(User source) {
         return UserReadResponse.builder()
                 .id(source.getId())
-                .name(source.getName())
+                .firstName(source.getFirstName())
                 .surname(source.getSurname())
                 .username(source.getUsername())
                 .build();

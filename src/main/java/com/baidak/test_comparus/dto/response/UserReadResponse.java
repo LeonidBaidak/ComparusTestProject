@@ -10,6 +10,6 @@ import java.util.UUID;
 public class UserReadResponse {
     private UUID id;
     private String username;
-    private String name;
+    private String firstName;
     private String surname;
 }
