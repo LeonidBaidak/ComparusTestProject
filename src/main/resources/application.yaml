@@ -1,0 +1,31 @@
+#Example:
+#data-sources:
+#  - name: data-base-1
+#    url: jdbc://.....
+#    table: users
+#    user: testuser
+#    password: testpass
+#    mapping:
+#      id: user_id
+#      username: login
+#      name: first_name
+#      surname: last_name
+#  - name: data-base-2
+#    url: jdbc://.....
+#    table: user_table
+#    user: testuser
+#    password: testpass
+#    mapping:
+#      id: ldap_login
+#      username: ldap_login
+#      name: name
+#      surname: surname
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"
+
+#    TODO change!!!
+spring:
+  jpa:
+    hibernate:
+      ddl-auto: none
