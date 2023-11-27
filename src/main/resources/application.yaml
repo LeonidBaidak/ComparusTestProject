@@ -1,10 +1,12 @@
 spring:
+
   liquibase:
     enabled: false
   datasource:
     url: "jdbc:postgresql:TestDB1"
     username: "test_user_1"
     password: "Test1"
+#    jdbc:postgresql://localhost:5432/TestDB1
 #  jpa:
 #    hibernate:
 #      ddl-auto: none
@@ -14,10 +16,30 @@ com:
     test-comparus:
       data-sources:
         - name: data-base-1
-          url: jdbc://.....
+          url: "jdbc:postgresql:TestDB1"
           table: users
-          user: testuser
-          password: testpass
+          user: "test_user_1"
+          password: "Test1"
+          mapping:
+            id: user_id
+            username: login
+            name: first_name
+            surname: last_name
+        - name: data-base-2
+          url: "jdbc:postgresql:TestDB2"
+          table: users
+          user: "test_user_2"
+          password: "Test2"
+          mapping:
+            id: user_id
+            username: login
+            name: first_name
+            surname: last_name
+        - name: data-base-3
+          url: "jdbc:postgresql:TestDB3"
+          table: users
+          user: "test_user_3"
+          password: "Test3"
           mapping:
             id: user_id
             username: login
@@ -36,6 +58,8 @@ com:
 springdoc:
   swagger-ui:
     path: "/swagger-ui.html"
+
+
 
 #    TODO change!!!
 
