@@ -27,29 +27,29 @@ public class UserRepository {
 
     public List<User> findAll() {
         List<User> result = new ArrayList<>();
-        for(CustomDataSourceProperties customDataSourceProperties : multitenantDatasourceProperties.getDataSources()){
+        for (CustomDataSourceProperties customDataSourceProperties : multitenantDatasourceProperties.getDataSources()) {
             List<User> selectedData = selectUser(customDataSourceProperties);
             result.addAll(selectedData);
         }
         return result;
     }
 
-    private List<User>  selectUser(CustomDataSourceProperties customProperties) {
+    private List<User> selectUser(CustomDataSourceProperties customProperties) {
         List<User> users = new ArrayList<>();
         try (Connection connection = DriverManager.getConnection(customProperties.getUrl(), customProperties.getUser(),
                 customProperties.getPassword());
              Statement statement = connection.createStatement();
         ) {
-            log.debug("The SQL statement is: " + SQL_SELECT + "\n"); // For debugging
+            log.debug("The SQL statement is: " + SQL_SELECT);
             ResultSet resultSet = statement.executeQuery(SQL_SELECT);
-            log.debug("The records selected are:\n");
+            log.debug("The selected records are:");
             int rowCount = 0;
             while (resultSet.next()) {
                 String id = resultSet.getString("id");
                 String username = resultSet.getString("username");
                 String firstName = resultSet.getString("first_name");
                 String surname = resultSet.getString("surname");
-                log.debug(id + ", " + username + ", " + firstName + ", " + surname + "\n");
+                log.debug(id + ", " + username + ", " + firstName + ", " + surname);
                 ++rowCount;
                 User user = User.builder()
                         .id(UUID.fromString(id))

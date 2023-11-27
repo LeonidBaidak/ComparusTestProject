@@ -1,16 +1,16 @@
-spring:
+#Logging conf
+logging:
+  level:
+    com:
+      baidak:
+        test_comparus: DEBUG
 
-  liquibase:
-    enabled: false
-  datasource:
-    url: "jdbc:postgresql:TestDB1"
-    username: "test_user_1"
-    password: "Test1"
-#    jdbc:postgresql://localhost:5432/TestDB1
-#  jpa:
-#    hibernate:
-#      ddl-auto: none
-#Example:
+#OpenAPI conf
+springdoc:
+  swagger-ui:
+    path: "/swagger-ui.html"
+
+#Custom DB properties
 com:
   baidak:
     test-comparus:
@@ -45,22 +45,5 @@ com:
             username: login
             name: first_name
             surname: last_name
-#  - name: data-base-2
-#    url: jdbc://.....
-#    table: user_table
-#    user: testuser
-#    password: testpass
-#    mapping:
-#      id: ldap_login
-#      username: ldap_login
-#      name: name
-#      surname: surname
-springdoc:
-  swagger-ui:
-    path: "/swagger-ui.html"
-
-
-
-#    TODO change!!!
 
 
