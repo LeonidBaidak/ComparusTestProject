@@ -1,7 +1,7 @@
 package com.baidak.test_comparus.service.impl;
 
 import com.baidak.test_comparus.domain.User;
-import com.baidak.test_comparus.repository.UserRepository;
+import com.baidak.test_comparus.repository.impl.UserRepositoryImpl;
 import com.baidak.test_comparus.service.UserService;
 import org.junit.jupiter.api.Test;
 
@@ -18,19 +18,19 @@ import static org.mockito.Mockito.when;
 
 class UserServiceImplTest {
 
-    private final UserRepository userRepository = mock(UserRepository.class);
-    private final UserService service = new UserServiceImpl(userRepository);
+    private final UserRepositoryImpl userRepositoryImpl = mock(UserRepositoryImpl.class);
+    private final UserService service = new UserServiceImpl(userRepositoryImpl);
 
     @Test
     void testFindAll() {
         UUID id1 = UUID.randomUUID();
         UUID id2 = UUID.randomUUID();
         List<User> expectedResult = getUserTestData(id1, id2);
-        when(userRepository.findAll()).thenReturn(getUserTestData(id1, id2));
+        when(userRepositoryImpl.findAll()).thenReturn(getUserTestData(id1, id2));
         List<User> actualResult = service.findAll();
         assertEquals(expectedResult, actualResult);
-        verify(userRepository, times(1)).findAll();
-        verifyNoMoreInteractions(userRepository);
+        verify(userRepositoryImpl, times(1)).findAll();
+        verifyNoMoreInteractions(userRepositoryImpl);
     }
 
     private List<User> getUserTestData(UUID id1, UUID id2) {

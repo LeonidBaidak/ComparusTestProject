@@ -1,5 +1,7 @@
 package com.baidak.test_comparus.configuration.datasource;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -10,28 +12,47 @@ import java.util.List;
 @Data
 @Validated
 @ConfigurationProperties(prefix = "com.baidak.test-comparus")
-public class MultitenantDatasourceProperties {
+public class MultiTenantDatasourceProperties {
 
+    @NotNull
     @Size(min = 1, message = "At least one data source must be initialized via properties!")
-    private final List<CustomDataSourceProperties> dataSources;
+    private final List<DataSourceDefinition> dataSourceDefinitions;
 
     @Data
-    public static class CustomDataSourceProperties {
+    public static class DataSourceDefinition {
 
+        @NotBlank
         private final String name;
+
+        @NotBlank
         private final String url;
+
+        @NotBlank
         private final String table;
+
+        @NotBlank
         private final String user;
+
+        @NotBlank
         private final String password;
+
+        @NotNull
         private final Mapping mapping;
     }
 
     @Data
     public static class Mapping {
 
+        @NotBlank
         private final String id;
+
+        @NotBlank
         private final String username;
+
+        @NotBlank
         private final String name;
+
+        @NotBlank
         private final String surname;
     }
 }

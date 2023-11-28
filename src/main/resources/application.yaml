@@ -14,7 +14,7 @@ springdoc:
 com:
   baidak:
     test-comparus:
-      data-sources:
+      data-source-definitions:
         - name: data-base-1
           url: "jdbc:postgresql:TestDB1"
           table: users
