@@ -29,7 +29,7 @@ public class DataAggregatingAspect {
     private final MultiTenantDatasourceProperties multiTenantDatasourceProperties;
     private final TargetDataSourceContextHolder targetDataSourceContextHolder;
 
-    @Around("execution (* com.baidak.test_comparus.repository.UserRepository.*())")
+    @Around("execution (* com.baidak.test_comparus.repository.UserRepository.findAll(..))")
     public List<User> aggregateResult(ProceedingJoinPoint pjp) throws InterruptedException, ExecutionException {
         List<User> result = new ArrayList<>();
         List<String> dataSourceNames = multiTenantDatasourceProperties.getDataSourceDefinitions()
