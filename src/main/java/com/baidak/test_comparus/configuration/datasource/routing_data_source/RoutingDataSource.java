@@ -63,7 +63,7 @@ public class RoutingDataSource extends AbstractDataSource {
             possibly via properties, and replace body of "if" with custom exception.
         */
         if (Objects.isNull(dataSourceContext)) {
-            log.warn("DataSource context has not been initialized!!!");
+            log.warn("DataSource context has not been initialized!");
             return dataSources.get(primaryDataSourceName);
         }
         String dataSourceName = dataSourceContext.getName();
