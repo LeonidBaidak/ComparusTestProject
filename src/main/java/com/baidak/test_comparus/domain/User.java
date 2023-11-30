@@ -18,7 +18,6 @@ import java.util.UUID;
 @Table(name = "user_table")
 @NoArgsConstructor
 @AllArgsConstructor
-//TODO consider id exclusion?? Username should be unique?
 @EqualsAndHashCode(exclude = {"id"})
 @ToString
 public class User {

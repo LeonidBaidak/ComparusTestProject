@@ -25,7 +25,7 @@ public class HikariDataSourceProvider implements DataSourceProvider {
         hikariConfig.setJdbcUrl(dataSourceDefinition.getUrl());
         hikariConfig.setUsername(dataSourceDefinition.getUser());
         hikariConfig.setPassword(dataSourceDefinition.getPassword());
-        //TODO The driver class may be implemented via properties and provided from outside
+        //NOTE: The driver class may be implemented via properties and provided from outside
         hikariConfig.setDriverClassName(POSTGRESQL.getDriverClassName());
         hikariConfig.setMaximumPoolSize(HIKARI_MAX_POOL_SIZE);
         hikariConfig.setPoolName("TenantPool-" + dataSourceDefinition.getName() + "-" + hikariConfig.hashCode());

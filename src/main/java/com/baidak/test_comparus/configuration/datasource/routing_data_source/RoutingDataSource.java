@@ -5,6 +5,7 @@ import com.baidak.test_comparus.configuration.datasource.MultiTenantDatasourcePr
 import com.baidak.test_comparus.configuration.datasource.MultiTenantDatasourceProperties.DataSourceDefinition;
 import com.baidak.test_comparus.configuration.datasource.TargetDataSourceContextHolder;
 import com.baidak.test_comparus.configuration.datasource.TargetDataSourceContextHolder.DataSourceContext;
+import com.baidak.test_comparus.exception.TargetDataSourceDoesNotDefinedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.AbstractDataSource;
@@ -42,7 +43,6 @@ public class RoutingDataSource extends AbstractDataSource {
         dataSources.put(primaryDataSourceName, primaryDataSource);
     }
 
-
     @Override
     public Connection getConnection() throws SQLException {
         return determineTargetDataSource().getConnection();
@@ -54,6 +54,7 @@ public class RoutingDataSource extends AbstractDataSource {
     }
 
     private DataSource determineTargetDataSource() {
+        log.debug("Determining target DataSource");
         DataSource targetDataSource;
         DataSourceContext dataSourceContext = targetDataSourceContextHolder.getDataSourceContext();
         /*
@@ -66,16 +67,16 @@ public class RoutingDataSource extends AbstractDataSource {
             return dataSources.get(primaryDataSourceName);
         }
         String dataSourceName = dataSourceContext.getName();
-        if (dataSources.containsKey(dataSourceContext.getName())) {
+        if (dataSources.containsKey(dataSourceName)) {
+            log.debug("Found cached DataSource entity");
             targetDataSource = dataSources.get(dataSourceName);
         } else {
             DataSourceDefinition dataSourceDefinition = multiTenantDatasourceProperties.getDataSourceDefinitions()
                     .stream()
                     .filter(s -> s.getName().equals(dataSourceName)).findFirst()
-                    //TODO Use custom exception!!!
-                    .orElseThrow(() -> new RuntimeException("TargetDataSource with specified name does not present in DataSourceDefinitions"));
+                    .orElseThrow(() -> new TargetDataSourceDoesNotDefinedException(dataSourceName));
             targetDataSource = dataSources.computeIfAbsent(dataSourceName, s -> {
-                log.trace("Build new DataSource");
+                log.debug("Building new DataSource");
                 return dataSourceProvider.buildDataSource(dataSourceDefinition);
             });
         }

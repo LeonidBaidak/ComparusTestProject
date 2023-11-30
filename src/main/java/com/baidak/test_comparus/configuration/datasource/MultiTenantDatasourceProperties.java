@@ -1,5 +1,6 @@
 package com.baidak.test_comparus.configuration.datasource;
 
+import com.baidak.test_comparus.exception.DataSourceNamesMustBeUniqueException;
 import jakarta.annotation.PostConstruct;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -27,8 +28,7 @@ public class MultiTenantDatasourceProperties {
                 .toList();
         Set<String> uniqueNames = Set.copyOf(names);
         if (uniqueNames.size() != names.size()){
-            //TODO custom exception
-            throw new RuntimeException("Database names must be unique!!!");
+            throw new DataSourceNamesMustBeUniqueException();
         }
     }
 

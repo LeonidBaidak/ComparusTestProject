@@ -20,7 +20,7 @@ public class DefaultDataSourceProvider implements DataSourceProvider {
                 .url(dataSourceDefinition.getUrl())
                 .username(dataSourceDefinition.getUser())
                 .password(dataSourceDefinition.getPassword())
-                //TODO The driver class may be implemented via properties and provided from outside
+                //NOTE: The driver class may be implemented via properties and provided from outside
                 .driverClassName(POSTGRESQL.getDriverClassName())
                 .build();
     }

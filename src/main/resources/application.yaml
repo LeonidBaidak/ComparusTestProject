@@ -1,5 +1,6 @@
 #Logging conf
 logging:
+  config: logback.xml
   level:
     com:
       baidak:
@@ -45,4 +46,3 @@ com:
             username: login
             name: first_name
             surname: last_name
-
