@@ -39,6 +39,5 @@ public interface UserController {
             description = FIND_ALL_DESCRIPTION)
     @GetMapping
     @UserFilter.QueryParameters
-    //TODO Consider using pageable? Would it be possible?
     List<UserReadResponse> findAll(@Parameter(hidden = true) UserFilter userFilter);
 }

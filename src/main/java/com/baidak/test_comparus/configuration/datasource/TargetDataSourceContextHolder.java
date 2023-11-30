@@ -8,12 +8,12 @@ public class TargetDataSourceContextHolder {
 
     private final ThreadLocal<DataSourceContext> dataSourceContext = new ThreadLocal<>();
 
-    public void setDataSourceContext(DataSourceContext practiceContext) {
-        this.dataSourceContext.set(practiceContext);
-    }
-
     public DataSourceContext getDataSourceContext() {
         return dataSourceContext.get();
+    }
+
+    public void setDataSourceContext(DataSourceContext practiceContext) {
+        this.dataSourceContext.set(practiceContext);
     }
 
     public void remove() {

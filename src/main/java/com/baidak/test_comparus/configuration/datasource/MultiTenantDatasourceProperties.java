@@ -27,7 +27,7 @@ public class MultiTenantDatasourceProperties {
                 .map(DataSourceDefinition::getName)
                 .toList();
         Set<String> uniqueNames = Set.copyOf(names);
-        if (uniqueNames.size() != names.size()){
+        if (uniqueNames.size() != names.size()) {
             throw new DataSourceNamesMustBeUniqueException();
         }
     }

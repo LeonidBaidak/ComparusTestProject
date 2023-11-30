@@ -20,6 +20,11 @@ import java.util.UUID;
 @NoArgsConstructor
 public class UserFilter {
 
+    private UUID id;
+    private String username;
+    private String name;
+    private String surname;
+
     @Target({ElementType.METHOD, ElementType.ANNOTATION_TYPE})
     @Retention(RetentionPolicy.RUNTIME)
     @Parameter(in = ParameterIn.QUERY,
@@ -36,9 +41,4 @@ public class UserFilter {
             schema = @Schema(type = "string"))
     public @interface QueryParameters {
     }
-
-    private UUID id;
-    private String username;
-    private String name;
-    private String surname;
 }
