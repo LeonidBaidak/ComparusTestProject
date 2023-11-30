@@ -74,7 +74,9 @@ public class DataSourceCallsAggregationAspect {
             targetDataSourceContextHolder.setDataSourceContext(new DataSourceContext(dataSourceName));
             try {
                 MDC.put(DATASOURCE_NAME_KEY, dataSourceName);
-                return (Collection<User>) pjp.proceed();
+                Collection<User> result = (Collection<User>) pjp.proceed();
+                targetDataSourceContextHolder.remove();
+                return result;
             } catch (Throwable e) {
                 throw new MultithreadingTaskFailedException("Exception occurred while executing aggregating task", e);
             } finally {
@@ -82,5 +84,4 @@ public class DataSourceCallsAggregationAspect {
             }
         }
     }
-
 }

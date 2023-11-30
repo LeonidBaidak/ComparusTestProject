@@ -4,6 +4,8 @@ import com.baidak.test_comparus.controller.DefaultControllerAdvice;
 import com.baidak.test_comparus.controller.UserController;
 import com.baidak.test_comparus.domain.User;
 import com.baidak.test_comparus.dto.response.UserReadResponse;
+import com.baidak.test_comparus.exception.MultithreadingTaskFailedException;
+import com.baidak.test_comparus.exception.TargetDataSourceDoesNotDefinedException;
 import com.baidak.test_comparus.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -136,6 +138,48 @@ class UserControllerImplTest {
 
         assertNotNull(result.getResolvedException());
         assertEquals(HttpMediaTypeNotAcceptableException.class, result.getResolvedException().getClass());
+        verifyNoMoreInteractions(userService, conversionService);
+    }
+
+    @Test
+    void testFindAllMultithreadingTaskFailedException() throws Exception {
+        when(userService.findAll()).thenThrow(new MultithreadingTaskFailedException("msg", new RuntimeException()));
+        MvcResult result = mockMvc
+                .perform(get(USERS_URL))
+                .andExpect(status().isInternalServerError())
+                .andReturn();
+
+        assertNotNull(result.getResolvedException());
+        assertEquals(MultithreadingTaskFailedException.class, result.getResolvedException().getClass());
+        verify(userService, times(1)).findAll();
+        verifyNoMoreInteractions(userService, conversionService);
+    }
+
+    @Test
+    void testFindAllTargetDataSourceDoesNotDefinedException() throws Exception {
+        when(userService.findAll()).thenThrow(new TargetDataSourceDoesNotDefinedException("msg"));
+        MvcResult result = mockMvc
+                .perform(get(USERS_URL))
+                .andExpect(status().isInternalServerError())
+                .andReturn();
+
+        assertNotNull(result.getResolvedException());
+        assertEquals(TargetDataSourceDoesNotDefinedException.class, result.getResolvedException().getClass());
+        verify(userService, times(1)).findAll();
+        verifyNoMoreInteractions(userService, conversionService);
+    }
+
+    @Test
+    void testFindAllGeneralThrowable() throws Exception {
+        when(userService.findAll()).thenThrow(new RuntimeException("msg"));
+        MvcResult result = mockMvc
+                .perform(get(USERS_URL))
+                .andExpect(status().isInternalServerError())
+                .andReturn();
+
+        assertNotNull(result.getResolvedException());
+        assertEquals(RuntimeException.class, result.getResolvedException().getClass());
+        verify(userService, times(1)).findAll();
         verifyNoMoreInteractions(userService, conversionService);
     }
 }

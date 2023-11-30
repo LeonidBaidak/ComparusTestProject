@@ -58,7 +58,7 @@ public class RoutingDataSource extends AbstractDataSource {
         DataSource targetDataSource;
         DataSourceContext dataSourceContext = targetDataSourceContextHolder.getDataSourceContext();
         /*
-            NOTE: The problem with the code here is that Hibernate demands Connection on an Application startup .
+            NOTE: The problem with the code here is that Hibernate demands Connection on an Application startup.
             But we do not have dataSourceContext on startup. The better way would be to modify this behavior,
             possibly via properties, and replace body of "if" with custom exception.
         */

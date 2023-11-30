@@ -70,7 +70,7 @@ public class DefaultControllerAdvice {
 
     @ExceptionHandler(Throwable.class)
     @ResponseStatus(INTERNAL_SERVER_ERROR)
-    public ErrorResponse generalThrowable(
+    public ErrorResponse generalThrowableHandler(
             HttpServletRequest request, Throwable throwable) {
         log.warn(buildExceptionLog("Handle general Throwable", request), throwable);
         return ErrorResponse.builder()
