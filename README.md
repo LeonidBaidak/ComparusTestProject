@@ -25,3 +25,9 @@ INSERT INTO public.user_table(
 	id, username, first_name, surname)
 	VALUES ('322fd4ab-0973-43f5-bb8c-b5123adbbe03', 'TestUsername1', 'TestFirstName1', 'TestSurname1');
 ```
+
+You may run the application after compiling via the following command
+```
+java -Dlogging.config='path to logback configuration file' -jar test-comparus-project-0.0.1-SNAPSHOT.jar
+```
+The example application.yaml and logback.xml are included in the repository.
