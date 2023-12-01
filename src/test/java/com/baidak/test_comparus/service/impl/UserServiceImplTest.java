@@ -37,9 +37,9 @@ class UserServiceImplTest {
         List<User> actualResult = service.findAll(filter);
         assertEquals(expectedResult, actualResult);
         verify(specificationFactory, times(1)).conjunction();
-        verify(filter,times(1)).getUsername();
-        verify(filter,times(1)).getFirstName();
-        verify(filter,times(1)).getSurname();
+        verify(filter, times(1)).getUsername();
+        verify(filter, times(1)).getFirstName();
+        verify(filter, times(1)).getSurname();
         verify(userRepository, times(1)).findAll(specification);
         verifyNoMoreInteractions(userRepository, specificationFactory, filter);
     }
