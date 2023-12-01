@@ -5,8 +5,8 @@ import com.baidak.test_comparus.configuration.datasource.MultiTenantDatasourcePr
 import com.baidak.test_comparus.configuration.datasource.MultiTenantDatasourceProperties.DataSourceDefinition;
 import com.baidak.test_comparus.configuration.datasource.TargetDataSourceContextHolder;
 import com.baidak.test_comparus.configuration.datasource.TargetDataSourceContextHolder.DataSourceContext;
+import com.baidak.test_comparus.exception.NoDataSourceDefinitionsException;
 import com.baidak.test_comparus.exception.TargetDataSourceDoesNotDefinedException;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.datasource.AbstractDataSource;
 
@@ -18,7 +18,6 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j
-@RequiredArgsConstructor
 public class RoutingDataSource extends AbstractDataSource {
 
     private final MultiTenantDatasourceProperties multiTenantDatasourceProperties;
@@ -37,7 +36,7 @@ public class RoutingDataSource extends AbstractDataSource {
                 .getDataSourceDefinitions()
                 .stream()
                 .findFirst()
-                .orElseThrow(() -> new RuntimeException("No datasource definition available!"));
+                .orElseThrow(NoDataSourceDefinitionsException::new);
         DataSource primaryDataSource = dataSourceProvider.buildDataSource(primaryDataSourceDefinition);
         this.primaryDataSourceName = primaryDataSourceDefinition.getName();
         dataSources.put(primaryDataSourceName, primaryDataSource);
