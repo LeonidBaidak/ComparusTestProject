@@ -1,9 +1,12 @@
 package com.baidak.test_comparus.service.impl;
 
 import com.baidak.test_comparus.domain.User;
+import com.baidak.test_comparus.dto.filter.UserFilter;
 import com.baidak.test_comparus.repository.UserRepository;
+import com.baidak.test_comparus.repository.UserSpecificationFactory;
 import com.baidak.test_comparus.service.UserService;
 import org.junit.jupiter.api.Test;
+import org.springframework.data.jpa.domain.Specification;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,18 +22,26 @@ import static org.mockito.Mockito.when;
 class UserServiceImplTest {
 
     private final UserRepository userRepository = mock(UserRepository.class);
-    private final UserService service = new UserServiceImpl(userRepository);
+    private final UserSpecificationFactory specificationFactory = mock(UserSpecificationFactory.class);
+    private final UserFilter filter = mock(UserFilter.class);
+    private final Specification<User> specification = mock(Specification.class);
+    private final UserService service = new UserServiceImpl(userRepository, specificationFactory);
 
     @Test
     void testFindAll() {
         UUID id1 = UUID.randomUUID();
         UUID id2 = UUID.randomUUID();
         List<User> expectedResult = getUserTestData(id1, id2);
-        when(userRepository.findAll()).thenReturn(getUserTestData(id1, id2));
-        List<User> actualResult = service.findAll();
+        when(specificationFactory.conjunction()).thenReturn(specification);
+        when(userRepository.findAll(specification)).thenReturn(getUserTestData(id1, id2));
+        List<User> actualResult = service.findAll(filter);
         assertEquals(expectedResult, actualResult);
-        verify(userRepository, times(1)).findAll();
-        verifyNoMoreInteractions(userRepository);
+        verify(specificationFactory, times(1)).conjunction();
+        verify(filter,times(1)).getUsername();
+        verify(filter,times(1)).getFirstName();
+        verify(filter,times(1)).getSurname();
+        verify(userRepository, times(1)).findAll(specification);
+        verifyNoMoreInteractions(userRepository, specificationFactory, filter);
     }
 
     private List<User> getUserTestData(UUID id1, UUID id2) {

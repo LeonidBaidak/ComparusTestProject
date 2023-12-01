@@ -19,7 +19,7 @@ public class UserControllerImpl implements UserController {
 
     @Override
     public List<UserReadResponse> findAll(UserFilter userFilter) {
-        return userService.findAll()
+        return userService.findAll(userFilter)
                 .stream()
                 .map(user -> conversionService.convert(user, UserReadResponse.class))
                 .toList();

@@ -3,6 +3,7 @@ package com.baidak.test_comparus.controller.impl;
 import com.baidak.test_comparus.controller.DefaultControllerAdvice;
 import com.baidak.test_comparus.controller.UserController;
 import com.baidak.test_comparus.domain.User;
+import com.baidak.test_comparus.dto.filter.UserFilter;
 import com.baidak.test_comparus.dto.response.UserReadResponse;
 import com.baidak.test_comparus.exception.MultithreadingTaskFailedException;
 import com.baidak.test_comparus.exception.TargetDataSourceDoesNotDefinedException;
@@ -33,10 +34,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-//TODO Add more tests, after implementing controller advice and service level logic! Also, consider using parametrized tests?
 class UserControllerImplTest {
 
     private static final String USERS_URL = "/api/v1/users";
+    private static final UserFilter filter = new UserFilter();
 
     private final ConversionService conversionService = mock(ConversionService.class);
     private final UserService userService = mock(UserService.class);
@@ -86,7 +87,7 @@ class UserControllerImplTest {
                 .username("username2")
                 .build();
 
-        when(userService.findAll()).thenReturn(users);
+        when(userService.findAll(filter)).thenReturn(users);
         when(conversionService.convert(user1, UserReadResponse.class)).thenReturn(userReadResponse1);
         when(conversionService.convert(user2, UserReadResponse.class)).thenReturn(userReadResponse2);
 
@@ -111,7 +112,7 @@ class UserControllerImplTest {
 
         verify(conversionService, times(1)).convert(user1, UserReadResponse.class);
         verify(conversionService, times(1)).convert(user2, UserReadResponse.class);
-        verify(userService, times(1)).findAll();
+        verify(userService, times(1)).findAll(filter);
         verifyNoMoreInteractions(userService, conversionService);
     }
 
@@ -143,7 +144,8 @@ class UserControllerImplTest {
 
     @Test
     void testFindAllMultithreadingTaskFailedException() throws Exception {
-        when(userService.findAll()).thenThrow(new MultithreadingTaskFailedException("msg", new RuntimeException()));
+        when(userService.findAll(filter)).thenThrow(new MultithreadingTaskFailedException("msg",
+                new RuntimeException()));
         MvcResult result = mockMvc
                 .perform(get(USERS_URL))
                 .andExpect(status().isInternalServerError())
@@ -151,13 +153,13 @@ class UserControllerImplTest {
 
         assertNotNull(result.getResolvedException());
         assertEquals(MultithreadingTaskFailedException.class, result.getResolvedException().getClass());
-        verify(userService, times(1)).findAll();
+        verify(userService, times(1)).findAll(filter);
         verifyNoMoreInteractions(userService, conversionService);
     }
 
     @Test
     void testFindAllTargetDataSourceDoesNotDefinedException() throws Exception {
-        when(userService.findAll()).thenThrow(new TargetDataSourceDoesNotDefinedException("msg"));
+        when(userService.findAll(filter)).thenThrow(new TargetDataSourceDoesNotDefinedException("msg"));
         MvcResult result = mockMvc
                 .perform(get(USERS_URL))
                 .andExpect(status().isInternalServerError())
@@ -165,13 +167,13 @@ class UserControllerImplTest {
 
         assertNotNull(result.getResolvedException());
         assertEquals(TargetDataSourceDoesNotDefinedException.class, result.getResolvedException().getClass());
-        verify(userService, times(1)).findAll();
+        verify(userService, times(1)).findAll(filter);
         verifyNoMoreInteractions(userService, conversionService);
     }
 
     @Test
     void testFindAllGeneralThrowable() throws Exception {
-        when(userService.findAll()).thenThrow(new RuntimeException("msg"));
+        when(userService.findAll(filter)).thenThrow(new RuntimeException("msg"));
         MvcResult result = mockMvc
                 .perform(get(USERS_URL))
                 .andExpect(status().isInternalServerError())
@@ -179,7 +181,7 @@ class UserControllerImplTest {
 
         assertNotNull(result.getResolvedException());
         assertEquals(RuntimeException.class, result.getResolvedException().getClass());
-        verify(userService, times(1)).findAll();
+        verify(userService, times(1)).findAll(filter);
         verifyNoMoreInteractions(userService, conversionService);
     }
 }
